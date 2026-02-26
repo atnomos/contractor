@@ -3,111 +3,286 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contractor Badge Maker</title>
+  <title>Contractor Shoutout Badge Maker</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f8f9fa; }
-    form { max-width: 600px; margin: auto; }
-    input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
-    .artwork-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin: 20px 0;
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004c99;
+      --text: #1a1a1a;
+      --gray: #555;
+      --light: #f8f9fa;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .artwork-grid label {
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 6px;
-      padding: 4px;
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      margin: 0;
+      padding: 24px 16px;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: #555;
     }
-    .artwork-grid input:checked + label {
-      border-color: #007bff;
-      color: #007bff;
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 32px 24px;
+      margin-bottom: 24px;
     }
-    #preview {
-      margin: 30px auto;
-      width: 400px;
-      height: 400px;
-      border: 1px solid #ddd;
-      position: relative;
-      background: #fff; /* fallback */
-      overflow: hidden;
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 2.1rem;
+      color: var(--primary);
+      text-align: center;
     }
-    button {
-      padding: 12px 24px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
+
+    .intro {
+      color: var(--gray);
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 1.05rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0,102,204,0.15);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .artwork-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .artwork-option {
+      text-align: center;
       cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
-    button:hover { background: #0056b3; }
+
+    .artwork-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .artwork-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: #f9fafb;
+      transition: all 0.2s;
+    }
+
+    .artwork-option input:checked + label {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+      transform: scale(1.05);
+    }
+
+    .artwork-option img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .artwork-option:hover img {
+      transform: scale(1.08);
+    }
+
+    .artwork-option span {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    #preview {
+      margin: 32px auto;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+      background: white;
+    }
+
+    #bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
     #textOverlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      text-shadow: 2px 2px 6px #000;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
       text-align: center;
-      width: 90%;
+      padding: 20px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
       pointer-events: none;
+    }
+
+    #nameText {
+      font: bold 38px Arial, sans-serif;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    #reasonText {
+      font: 24px Arial, sans-serif;
+      line-height: 1.3;
+      max-width: 90%;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      max-width: 320px;
+      margin: 24px auto 0;
+      padding: 14px 32px;
+      background: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 500px) {
+      .container { padding: 24px 16px; }
+      h1 { font-size: 1.8rem; }
+      #preview { max-width: 360px; }
+      #nameText { font-size: 32px; }
+      #reasonText { font-size: 20px; }
     }
   </style>
 </head>
 <body>
-  <h1>Contractor Shoutout Badge</h1>
+  <div class="container">
+    <h1>Contractor Shoutout Badge</h1>
+    <p class="intro">Create a quick recognition badge — fill in the details, pick a style, then download to share on Teams!</p>
 
-  <form id="form">
-    <input type="text" id="name" placeholder="Contractor's Name" required />
-    <textarea id="reason" rows="3" placeholder="What are we celebrating?" required></textarea>
+    <form id="form">
+      <label for="name">Contractor's Name</label>
+      <input type="text" id="name" placeholder="e.g. Alex Rivera" required />
 
-    <div class="artwork-grid">
-      <input type="radio" name="artwork" value="image1" id="image1" checked />
-      <label for="image1">
-        <img src="images/image1.png" alt="Badge 1 – Excellence / Great Job" width="80" height="80" />
-        <span>Excellence</span>
-      </label>
+      <label for="reason">What are we celebrating?</label>
+      <textarea id="reason" rows="3" placeholder="e.g. Outstanding support on the Q4 migration project!" required></textarea>
 
-      <input type="radio" name="artwork" value="image2" id="image2" />
-      <label for="image2">
-        <img src="images/image2.png" alt="Badge 2 – Reliability / Solid Work" width="80" height="80" />
-        <span>Reliability</span>
-      </label>
+      <label>Choose a badge style</label>
+      <div class="artwork-grid">
+        <div class="artwork-option">
+          <input type="radio" name="artwork" value="image1" id="image1" checked />
+          <label for="image1">
+            <img src="images/image1.png" alt="Excellence Badge" />
+            <span>Excellence</span>
+          </label>
+        </div>
+        <div class="artwork-option">
+          <input type="radio" name="artwork" value="image2" id="image2" />
+          <label for="image2">
+            <img src="images/image2.png" alt="Reliability Badge" />
+            <span>Reliability</span>
+          </label>
+        </div>
+        <div class="artwork-option">
+          <input type="radio" name="artwork" value="image3" id="image3" />
+          <label for="image3">
+            <img src="images/image3.png" alt="Teamwork Badge" />
+            <span>Teamwork</span>
+          </label>
+        </div>
+        <div class="artwork-option">
+          <input type="radio" name="artwork" value="image4" id="image4" />
+          <label for="image4">
+            <img src="images/image4.png" alt="Innovation Badge" />
+            <span>Innovation</span>
+          </label>
+        </div>
+        <div class="artwork-option">
+          <input type="radio" name="artwork" value="image5" id="image5" />
+          <label for="image5">
+            <img src="images/image5.png" alt="Achievement Badge" />
+            <span>Achievement</span>
+          </label>
+        </div>
+      </div>
 
-      <input type="radio" name="artwork" value="image3" id="image3" />
-      <label for="image3">
-        <img src="images/image3.png" alt="Badge 3 – Teamwork / Collaboration" width="80" height="80" />
-        <span>Teamwork</span>
-      </label>
+      <button type="button" id="generate">Generate & Download Badge</button>
+    </form>
 
-      <input type="radio" name="artwork" value="image4" id="image4" />
-      <label for="image4">
-        <img src="images/image4.png" alt="Badge 4 – Innovation / Above & Beyond" width="80" height="80" />
-        <span>Innovation</span>
-      </label>
-
-      <input type="radio" name="artwork" value="image5" id="image5" />
-      <label for="image5">
-        <img src="images/image5.png" alt="Badge 5 – Achievement / Extra Mile" width="80" height="80" />
-        <span>Achievement</span>
-      </label>
-    </div>
-
-    <button type="button" id="generate">Generate & Download</button>
-  </form>
-
-  <div id="preview">
-    <img id="bg" src="" style="width:100%; height:100%; object-fit:cover; position:absolute;" alt="Badge background" />
-    <div id="textOverlay">
-      <div id="nameText" style="font: bold 32px Arial; margin-bottom: 12px;"></div>
-      <div id="reasonText" style="font: 24px Arial; line-height: 1.3;"></div>
+    <div id="preview">
+      <img id="bg" src="" alt="Selected badge background" />
+      <div id="textOverlay">
+        <div id="nameText"></div>
+        <div id="reasonText"></div>
+      </div>
     </div>
   </div>
 
@@ -117,6 +292,7 @@
     const previewBg   = document.getElementById('bg');
     const nameText    = document.getElementById('nameText');
     const reasonText  = document.getElementById('reasonText');
+    const generateBtn = document.getElementById('generate');
 
     // Live text update
     nameInput.addEventListener('input',   () => nameText.textContent   = nameInput.value.trim());
@@ -130,16 +306,19 @@
       });
     });
 
-    // Set initial background (default checked radio)
+    // Set initial background
     const initialImg = document.querySelector('input[name="artwork"]:checked + label img');
     if (initialImg) previewBg.src = initialImg.src;
 
     // Generate & download
-    document.getElementById('generate').onclick = () => {
+    generateBtn.onclick = () => {
       if (!nameInput.value.trim() || !reasonInput.value.trim()) {
-        alert('Please enter both name and reason.');
+        alert('Please enter both name and celebration reason.');
         return;
       }
+
+      generateBtn.disabled = true;
+      generateBtn.textContent = 'Generating...';
 
       const canvas = document.createElement('canvas');
       canvas.width = 400;
@@ -153,30 +332,34 @@
       img.onload = () => {
         ctx.drawImage(img, 0, 0, 400, 400);
 
-        // Text styling
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0,0,0,0.8)';
-        ctx.shadowBlur = 6;
+        ctx.shadowColor = 'rgba(0,0,0,0.85)';
+        ctx.shadowBlur = 8;
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
 
-        // Name (larger, bolder)
-        ctx.font = 'bold 34px Arial';
+        ctx.font = 'bold 38px Arial, sans-serif';
         ctx.fillText(nameInput.value.trim(), 200, 160);
 
-        // Reason (smaller, can wrap a bit better)
-        ctx.font = '24px Arial';
+        ctx.font = '24px Arial, sans-serif';
         ctx.fillText(reasonInput.value.trim(), 200, 220);
 
-        // Download
         const link = document.createElement('a');
-        link.download = 'contractor_shoutout_badge.png';
+        link.download = `shoutout_${nameInput.value.trim().replace(/\s+/g,'_') || 'badge'}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
+
+        // Reset button
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'Generate & Download Badge';
       };
 
-      img.onerror = () => alert('Failed to load background image. Check file paths.');
+      img.onerror = () => {
+        alert('Failed to load the background image. Check file paths or try refreshing.');
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'Generate & Download Badge';
+      };
     };
   </script>
 </body>
