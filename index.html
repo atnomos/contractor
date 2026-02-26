@@ -19,9 +19,10 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       color: var(--text);
-      background: #00040f;
-      overflow: hidden;
+      background: #000814;
       position: relative;
+      overflow-y: auto;          /* ← allows scrolling */
+      -webkit-overflow-scrolling: touch; /* smooth on iOS */
     }
 
     /* Vast cinematic space with Mars-inspired planet */
@@ -31,7 +32,7 @@
       background: 
         radial-gradient(circle at 70% 50%, #3c1f0f 0%, #1a0b05 30%, transparent 60%),
         radial-gradient(ellipse at 75% 55%, rgba(200,80,40,0.35) 0%, transparent 50%),
-        #00040f;
+        #000814;
       z-index: -3;
     }
 
@@ -256,6 +257,7 @@
       #preview { max-width: 360px; }
       #nameText { font-size: 36px; }
       #reasonText { font-size: 22px; }
+      .container { padding: 24px 16px; margin: 20px auto; }
     }
   </style>
 </head>
