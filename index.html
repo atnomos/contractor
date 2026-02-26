@@ -8,10 +8,9 @@
     :root {
       --primary: #0066cc;
       --primary-dark: #004c99;
-      --glow: rgba(100, 180, 255, 0.6);
-      --text: #f0f8ff;
+      --text: #f8f9ff;
       --gray: #b0c4de;
-      --shadow: 0 6px 20px rgba(0,0,0,0.5);
+      --shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,24 +19,20 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       color: var(--text);
-      background: #0a0015;
+      background: #000814;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Buttery deep space layers */
+    /* Vast dark space base */
     .space-bg {
       position: fixed;
       inset: 0;
-      background: 
-        radial-gradient(ellipse at 30% 70%, rgba(80, 0, 150, 0.35) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 30%, rgba(0, 80, 200, 0.25) 0%, transparent 70%),
-        radial-gradient(ellipse at 20% 20%, rgba(200, 0, 150, 0.18) 0%, transparent 65%),
-        #000814;
+      background: #000814;
       z-index: -3;
     }
 
-    /* Dense star fields with different speeds & sizes for depth */
+    /* Multiple layers of stars for realistic depth */
     .stars, .stars2, .stars3 {
       position: fixed;
       inset: 0;
@@ -48,54 +43,56 @@
     .stars {
       background-image: 
         radial-gradient(white 1px, transparent 1px),
-        radial-gradient(white 1px, transparent 1px);
-      background-size: 120px 120px, 80px 80px;
-      background-position: 0 0, 40px 40px;
-      animation: drift 120s linear infinite;
-      opacity: 0.9;
+        radial-gradient(white 0.8px, transparent 0.8px);
+      background-size: 140px 140px, 100px 100px;
+      background-position: 0 0, 70px 30px;
+      animation: drift 180s linear infinite;
+      opacity: 0.95;
     }
 
     .stars2 {
       background-image: 
         radial-gradient(white 1.2px, transparent 1.2px),
-        radial-gradient(white 0.8px, transparent 0.8px);
-      background-size: 200px 200px, 140px 140px;
-      background-position: 60px 20px, 100px 80px;
-      animation: drift 180s linear infinite reverse;
-      opacity: 0.7;
+        radial-gradient(#f0f0ff 0.9px, transparent 0.9px);
+      background-size: 220px 220px, 160px 160px;
+      background-position: 50px 80px, 120px 40px;
+      animation: drift 260s linear infinite reverse;
+      opacity: 0.75;
     }
 
     .stars3 {
       background-image: 
-        radial-gradient(white 0.6px, transparent 0.6px);
-      background-size: 300px 300px;
-      animation: drift 300s linear infinite;
-      opacity: 0.5;
+        radial-gradient(white 0.7px, transparent 0.7px),
+        radial-gradient(#e8f0ff 0.6px, transparent 0.6px);
+      background-size: 320px 320px, 240px 240px;
+      animation: drift 400s linear infinite;
+      opacity: 0.55;
     }
 
     @keyframes drift {
       from { transform: translate(0, 0); }
-      to   { transform: translate(-100px, -100px); }
+      to   { transform: translate(-150px, -150px); }
     }
 
-    /* Twinkling overlay for buttery glow */
+    /* Subtle twinkling stars */
     .twinkle {
       position: fixed;
       inset: 0;
       background: transparent;
       box-shadow: 
-        200px 300px 2px #fff, 500px 150px 1.5px #fff, 800px 600px 2px #e0f0ff,
-        1200px 400px 1px #fff, 300px 800px 2px #d0e0ff, 900px 200px 1.8px #fff,
-        600px 900px 1.2px #fff, 1100px 700px 2px #f0f8ff, 400px 500px 1.5px #fff;
-      opacity: 0.6;
-      animation: twinkle 8s infinite ease-in-out;
+        180px 320px 1.5px #fff, 450px 120px 1.2px #fff, 780px 580px 1.8px #f8f9ff,
+        1100px 380px 1px #fff, 320px 720px 1.6px #fff, 850px 180px 1.4px #fff,
+        580px 880px 1px #fff, 1050px 650px 1.7px #f0f4ff, 420px 480px 1.3px #fff,
+        900px 200px 1.5px #fff, 200px 900px 1px #fff, 700px 300px 1.2px #fff;
+      opacity: 0.65;
+      animation: twinkle 10s infinite ease-in-out;
       pointer-events: none;
       z-index: -1;
     }
 
     @keyframes twinkle {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50%      { opacity: 0.85; transform: scale(1.02); }
+      0%, 100% { opacity: 0.65; transform: scale(1); }
+      50%      { opacity: 0.9; transform: scale(1.015); }
     }
 
     .container {
@@ -104,21 +101,21 @@
       width: 100%;
       margin: 40px auto;
       padding: 32px 24px;
-      background: rgba(10, 5, 30, 0.55);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(8, 10, 20, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-radius: 20px;
-      border: 1px solid rgba(100, 180, 255, 0.18);
+      border: 1px solid rgba(255,255,255,0.08);
       box-shadow: var(--shadow);
       z-index: 1;
     }
 
     h1 {
       font-size: 2.6rem;
-      color: #e0f0ff;
+      color: #f8f9ff;
       text-align: center;
       margin-bottom: 16px;
-      text-shadow: 0 0 20px var(--glow);
+      text-shadow: 0 0 15px rgba(255,255,255,0.25);
     }
 
     .intro {
@@ -139,9 +136,9 @@
     textarea {
       width: 100%;
       padding: 14px 16px;
-      border: 1px solid rgba(100,180,255,0.3);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 10px;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.03);
       color: white;
       font-size: 1rem;
       transition: all 0.25s;
@@ -149,7 +146,7 @@
 
     input:focus, textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(0,102,204,0.25);
+      box-shadow: 0 0 0 4px rgba(0,102,204,0.2);
       outline: none;
     }
 
@@ -168,17 +165,17 @@
       align-items: center;
       gap: 10px;
       padding: 14px;
-      border: 2px solid rgba(100,180,255,0.2);
+      border: 2px solid rgba(255,255,255,0.12);
       border-radius: 14px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.02);
       transition: all 0.3s ease;
       cursor: pointer;
     }
 
     .artwork-option input:checked + label {
       border-color: var(--primary);
-      background: rgba(0,102,204,0.2);
-      box-shadow: 0 0 20px rgba(0,102,204,0.4);
+      background: rgba(0,102,204,0.12);
+      box-shadow: 0 0 20px rgba(0,102,204,0.3);
       transform: scale(1.08);
     }
 
@@ -187,7 +184,7 @@
       height: 100px;
       object-fit: contain;
       border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
       transition: transform 0.3s;
     }
 
@@ -205,12 +202,12 @@
       width: 100%;
       max-width: 440px;
       aspect-ratio: 1;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 18px;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-      background: rgba(0,0,0,0.4);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.5);
     }
 
     #bg { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
@@ -224,7 +221,7 @@
       align-items: center;
       padding: 24px;
       text-align: center;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.95);
+      text-shadow: 0 4px 16px rgba(0,0,0,0.98);
       pointer-events: none;
     }
 
@@ -246,7 +243,7 @@
       max-width: 360px;
       margin: 32px auto 0;
       padding: 16px;
-      background: linear-gradient(135deg, #0066cc, #0099ff);
+      background: linear-gradient(135deg, #0066cc, #0077ff);
       color: white;
       font-size: 1.18rem;
       font-weight: 600;
@@ -254,12 +251,12 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 8px 25px rgba(0,102,204,0.5);
+      box-shadow: 0 8px 25px rgba(0,102,204,0.45);
     }
 
     button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(0,102,204,0.6);
+      box-shadow: 0 12px 35px rgba(0,102,204,0.55);
     }
 
     button:disabled {
@@ -389,7 +386,7 @@
 
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0,0,0,0.95)';
+        ctx.shadowColor = 'rgba(0,0,0,0.98)';
         ctx.shadowBlur = 12;
         ctx.shadowOffsetX = 3;
         ctx.shadowOffsetY = 3;
